@@ -20,6 +20,7 @@ async function run() {
     const cacheControl = core.getInput('cacheControl');
     const cache   = core.getInput('cache') || null;
     const filesToInclude = core.getInput('files-to-include') || null;
+    const gzip = getBooleanInput('gzip') || null;
 
     await deploy({
       folder,
@@ -33,7 +34,7 @@ async function run() {
       cache,
       immutable,
       cacheControl,
-      filesToInclude,
+      filesToInclude,gzip
     });
   } catch (error) {
     core.setFailed(error.message);

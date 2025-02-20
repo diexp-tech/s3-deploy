@@ -16,6 +16,7 @@ let deploy = function (params) {
       immutable,
       cacheControl,
       filesToInclude,
+      withGzip,
     } = params;
 
     const distIdArg = distId ? `--distId ${distId}` : '';
@@ -32,6 +33,7 @@ let deploy = function (params) {
     const privateArg = private ? '--private' : '';
     const cacheFlag = cache ? `--cache ${cache}` : '';
     const filesRegex = filesToInclude ? filesToInclude : '**';
+    const gzip = withGzip ?  `--gzip xml,html,htm,js,css,ttf,otf,svg,txt` : '';
 
     try {
       const command = `npx s3-deploy@1.4.0 ./${filesRegex} \
@@ -40,7 +42,7 @@ let deploy = function (params) {
                         --cwd ./ \
                         ${distIdArg} \
                         --etag \
-                        --gzip xml,html,htm,js,css,ttf,otf,svg,txt \
+                        ${gzip} \
                         ${cacheFlag} \
                         ${invalidationArg} \
                         ${deleteRemovedArg} \
