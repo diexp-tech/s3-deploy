@@ -6,10 +6,10 @@ This action is based on the work done by import-io on [s3-deploy](https://www.np
 
 ## Usage
 
-You can use this action by referencing the v4 branch
+You can use this action by referencing the v1 branch
 
 ```yaml
-uses: reggionick/s3-deploy@v4
+uses: diexp-tech/s3-deploy@v1
 with:
   folder: build
   bucket: ${{ secrets.S3_BUCKET }}
@@ -34,6 +34,7 @@ S3 Deploy's Action supports inputs from the user listed in the table below:
 | `immutable`        | boolean          | No       | false     | Sets the Cache-Control header to 'immutable'                                               |
 | `cache-control`    | string           | No       |           | Sets the Cache-Control: X header                                                           |
 | `files-to-include` | string           | No       | "\*\*"    | Allows for a comma delineated glob pattern that matches files to include in the deployment |
+| `gzip`             | boolean          | No       | undefined | Sets the gzip compression for files                                                        |
 
 ### Example `workflow.yml` with S3 Deploy Action
 
@@ -56,7 +57,7 @@ jobs:
         run: yarn build
 
       - name: Deploy
-        uses: reggionick/s3-deploy@v4
+        uses: diexp-tech/s3-deploy@v1
         with:
           folder: build
           bucket: ${{ secrets.S3_BUCKET }}
@@ -67,42 +68,41 @@ jobs:
           no-cache: true
           private: true
           files-to-include: '{.*/**,**}'
+          gzip: true
 ```
 
 ### Minimum IAM Policy
 
 ```json
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "AllowS3BucketManipulation",
-			"Effect": "Allow",
-			"Action": [
-				"s3:PutObject",
-				"s3:GetObject",
-				"s3:DeleteObject",
-				"s3:ListMultipartUploadParts",
-				"s3:AbortMultipartUpload",
-				"s3:ListBucket"
-			],
-			"Resource": "arn:aws:s3:::<bucket name>/*"
-		},
-		{
-			"Sid": "AllowS3BucketListing",
-			"Effect": "Allow",
-			"Action": [
-				"s3:ListBucket"
-			],
-			"Resource": "arn:aws:s3:::<bucket name>"
-		},
-		{
-			"Sid": "CFInvalidation",
-			"Effect": "Allow",
-			"Action": "cloudfront:CreateInvalidation",
-			"Resource": "arn:aws:cloudfront::<AWS account ID>:distribution/<CF distribution ID>"
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowS3BucketManipulation",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:ListMultipartUploadParts",
+        "s3:AbortMultipartUpload",
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::<bucket name>/*"
+    },
+    {
+      "Sid": "AllowS3BucketListing",
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket"],
+      "Resource": "arn:aws:s3:::<bucket name>"
+    },
+    {
+      "Sid": "CFInvalidation",
+      "Effect": "Allow",
+      "Action": "cloudfront:CreateInvalidation",
+      "Resource": "arn:aws:cloudfront::<AWS account ID>:distribution/<CF distribution ID>"
+    }
+  ]
 }
 ```
 

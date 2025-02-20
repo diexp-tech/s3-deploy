@@ -1,6 +1,6 @@
 {
   "name": "github-action-s3-deploy",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "Easily deploy a static website to AWS S3 and invalidate CloudFront distribution",
   "main": "index.js",
   "scripts": {
@@ -11,19 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Reggionick/s3-deploy.git"
+    "url": "git+https://github.com/diexp-tech/s3-deploy"
   },
   "keywords": [
     "Actions",
     "AWS S3",
     "CloudFront"
   ],
-  "author": "Nicola Reggiani <nicola.reggiani@codelaundry.io>",
+  "author": "Buzko Yaroslav <yaroslav@diexp.tech>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Reggionick/s3-deploy/issues"
+    "url": "https://github.com/diexp-tech/s3-deploy/issues"
   },
-  "homepage": "https://github.com/Reggionick/s3-deploy#readme",
+  "homepage": "https://github.com/diexp-tech/s3-deploy#readme",
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@actions/exec": "^1.1.1"
